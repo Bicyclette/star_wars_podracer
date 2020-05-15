@@ -1,0 +1,204 @@
+# Blender MTL File: 'podracer_export_game.blend'
+# Material Count: 19
+
+newmtl None
+Ns 500
+Ka 0.8 0.8 0.8
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+
+newmtl basic_metal
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures/basic_metal.jpg
+
+newmtl black_leather
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/cable_fixed_tex.jpg
+
+newmtl black_metal
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/cable_fixed_tex.jpg
+
+newmtl black_metal.001
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/cable_fixed_tex.jpg
+
+newmtl blue_button
+Ns 506.250000
+Ka 0.500000 0.500000 0.500000
+Kd 0.044491 0.035974 0.800000
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl chair_balls
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/chair_balls.jpg
+
+newmtl chariot_handle
+Ns 225.000000
+Ka 0.250000 0.250000 0.250000
+Kd 0.027210 0.027210 0.027210
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl cockpit
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/cockpit_tex.jpg
+
+newmtl cockpit_metal
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/cockpit_head_tex.jpg
+
+newmtl cuir_rouge
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/cuir_rouge_tex.jpg
+
+newmtl cuir_rouge_head
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/cuire_rouge_head_tex.jpg
+
+newmtl grip
+Ns 56.250000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/grip_tex.jpg
+
+newmtl red_button
+Ns 506.250000
+Ka 0.500000 0.500000 0.500000
+Kd 0.800000 0.034348 0.027452
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl screen_center
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/screen_center_tex.jpg
+
+newmtl screen_left
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/screen_left_tex.jpg
+
+newmtl screen_right
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/screen_right_tex.jpg
+
+newmtl shiny_metal
+Ns 650.249991
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.700000 0.700000 0.700000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/base_colors/grey.png
+
+newmtl yellow_button
+Ns 506.250000
+Ka 0.500000 0.500000 0.500000
+Kd 0.800000 0.680829 0.009789
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3

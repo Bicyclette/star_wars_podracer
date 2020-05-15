@@ -1,0 +1,133 @@
+# Blender MTL File: 'podracer_export_game.blend'
+# Material Count: 12
+
+newmtl basic_metal
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures/basic_metal.jpg
+
+newmtl black_metal
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/cable_fixed_tex.jpg
+
+newmtl breathe
+Ns 81.000006
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/breathe_tex.jpg
+
+newmtl burned_iron
+Ns 81.000006
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.700000 0.700000 0.700000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures/iron.jpg
+
+newmtl connector
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/connector_tex.jpg
+
+newmtl main_carter
+Ns 143.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures/main_carter_tex.jpg
+
+newmtl repulsor_back
+Ns 143.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/repulsor_back_tex.jpg
+
+newmtl repulsor_front
+Ns 143.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures_jpg/repulsor_front_tex.jpg
+
+newmtl rusted_metal
+Ns 35.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.250000 0.250000 0.250000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Programmation/Game/podracer/assets/textures/podracer/rusted_metal.JPG
+
+newmtl rusted_metal_red
+Ns 110.250015
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.650000 0.650000 0.650000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/anakin_pod_textures/rusted_metal_tex.jpg
+
+newmtl shiny_metal
+Ns 650.249991
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.700000 0.700000 0.700000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd /home/mathias/Images/base_colors/grey.png
+
+newmtl smoke
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2

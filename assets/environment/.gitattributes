@@ -1,0 +1,5 @@
+minimap.tar.gz filter=lfs diff=lfs merge=lfs -text
+mos_espa_colliders.tar.gz filter=lfs diff=lfs merge=lfs -text
+mos_espa.tar.gz filter=lfs diff=lfs merge=lfs -text
+red_dot.tar.gz filter=lfs diff=lfs merge=lfs -text
+heightfield.tar.gz filter=lfs diff=lfs merge=lfs -text
