@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-	Game podracer("PODRACER - STAR WARS");
+    Game podracer("PODRACER - STAR WARS");
 	podracer.start();
 	podracer.quit();
 

@@ -55,7 +55,7 @@ Game::Game(const std::string& title) :
 		SDL_Quit();
 		std::exit(-1);
 	}
-	
+
 	// boolean fiesta
 	show_menu = true;
 	show_info_menu = false;
@@ -85,11 +85,12 @@ Game::Game(const std::string& title) :
 		SDL_Quit();
 		std::exit(-1);
 	}
-
+	
 	in_racing_game = true;
 
 	// EVERYTHING'S FINE : TIME TO SET SOME OPENGL STATES
 	glViewport(0, 0, WIDTH, HEIGHT);
+    glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
@@ -98,7 +99,7 @@ Game::Game(const std::string& title) :
 	glClearColor(Color::LIGHT_GREY[0], Color::LIGHT_GREY[1], Color::LIGHT_GREY[2], Color::LIGHT_GREY[3]);
 	glClearDepthf(2000.0f);
 	SDL_GL_SetSwapInterval(1);
-
+	
 	// INIT CAMERAS
 	editor_cam = new Camera(Camera::EDITOR, WIDTH, HEIGHT, 60.0f);
 	racing_cam = new Camera(Camera::PODRACER_PILOT, WIDTH, HEIGHT, 60.0f);
@@ -106,7 +107,7 @@ Game::Game(const std::string& title) :
 	minimap_cam = new Camera(Camera::MINIMAP, WIDTH, HEIGHT, 60.0f);
 	cam = racing_cam;
 	prev_camera_view = cam->get_view();
-
+	
 	// podracer
 	pod = nullptr;
 
@@ -119,7 +120,7 @@ Game::Game(const std::string& title) :
 		"../assets/textures/skybox/left.tga",
 		"../assets/textures/skybox/right.tga"};
 	sky = new Skybox("../shaders/env/skybox/vertex.glsl", "../shaders/env/skybox/fragment.glsl", "../shaders/env/skybox/geometry.glsl", cubemap_textures);
-
+	
 	// USER ACTIONS
 	user_actions.key_up = false;
 	user_actions.key_down = false;
@@ -147,7 +148,7 @@ Game::Game(const std::string& title) :
 	user_actions.clicked_map = false;
 	user_actions.clicked_controls = false;
 	user_actions.clicked_back = false;
-
+	
 	// menu navigation
 	current_page = MAIN;
 	int indices[] = {0, 1, 2, 2, 1, 3};
@@ -158,17 +159,17 @@ Game::Game(const std::string& title) :
 	glGenBuffers(1, &tuningVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, tuningVBO);
 	glBufferData(GL_ARRAY_BUFFER, tuning_button.size() * sizeof(float), tuning_button.data(), GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	
+
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	
+
 	glGenBuffers(1, &tuningEBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tuningEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	
+
 	glBindVertexArray(0);
 
 	glGenVertexArrays(1, &backVAO);
@@ -177,19 +178,19 @@ Game::Game(const std::string& title) :
 	glGenBuffers(1, &backVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, backVBO);
 	glBufferData(GL_ARRAY_BUFFER, back_button.size() * sizeof(float), back_button.data(), GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	
+
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
-	
+
 	glGenBuffers(1, &backEBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, backEBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	
+
 	glBindVertexArray(0);
-	
+
 	// UI shader
 	ui_shader = new Shader("../shaders/menu/vertex.glsl", "../shaders/menu/fragment.glsl", "../shaders/menu/geometry.glsl");
 	ui_shader->use();
@@ -411,31 +412,106 @@ Game::Game(const std::string& title) :
 	flip.push_back(true);
 	tex_path.push_back(std::string("../assets/textures/menu/kmh.png")); // 69
 	flip.push_back(true);
+	tex_path.push_back(std::string("../assets/textures/menu/loading_background.png")); // 70
+	flip.push_back(true);
+	tex_path.push_back(std::string("../assets/textures/menu/loading_screen_assets.png")); // 71
+	flip.push_back(false);
 	set_menu_textures();
+    
+    // ########## start loading screen geometry ##########
+	GLuint VAO1, VBO1, EBO1;
+	GLuint VAO2, VBO2, EBO2;
 	
+	float load_background[] = {
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 1.0f
+	};
+
+	glGenVertexArrays(1, &VAO1);
+	glBindVertexArray(VAO1);
+
+	glGenBuffers(1, &VBO1);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(load_background), load_background, GL_STATIC_DRAW);
+	
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	
+	glGenBuffers(1, &EBO1);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO1);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	
+	glBindVertexArray(0);
+	
+    float load[] = {
+		-0.2f, -0.8f, -0.45f, 0.0f, 1.0f,
+		0.2f, -0.8f, -0.45f, 1.0f, 1.0f,
+		-0.2f, -0.433f, -0.45f, 0.0f, 0.0f,
+		0.2f, -0.433f, -0.45f, 1.0f, 0.0f
+	};
+
+	glGenVertexArrays(1, &VAO2);
+	glBindVertexArray(VAO2);
+
+	glGenBuffers(1, &VBO2);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(load), load, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	glGenBuffers(1, &EBO2);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glBindVertexArray(0);
+	
+    // ########## end loading screen geometry ##########
+	
+    // #################### LOADING SCREEN ####################
+    // draw loading screen background image
+	glBindTexture(GL_TEXTURE_2D, menu_textures[70].id);
+	glBindVertexArray(VAO1);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    // draw loading screen message
+	glBindTexture(GL_TEXTURE_2D, menu_textures[71].id);
+	glBindVertexArray(VAO2);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    SDL_GL_SwapWindow(window);
+
     // FRAMEBUFFERS
 	set_framebuffers();
-
+	
 	// platform
 	platform = new Environment("Platform", "../assets/platform/platform.obj", this);
-
+	
 	// environment
 	env = new Environment("Tatooine", this);
 	
 	// podracer
 	pod = new Podracer("anakin_podracer", this);
 	cam = pod_specs_cam;
-
+	
 	// minimap
 	minimap = new Minimap("../assets/environment/minimap.obj", this);
-    
+	
     // World Physics
     tatooine = new WorldPhysics(this);
-
+	
     // Draw master
     draw_master = new DrawMaster();
     draw_master->build_tree(env->get_mesh_collection());
-
+	
 	// init timer
 	timer = 0.0;
 	timer1 = 0.0;
@@ -511,6 +587,16 @@ Game::Game(const std::string& title) :
 	// render pass visualization
 	check_render_pass = false;
 	render_pass = 0;
+	
+    // delete loading screen VAOs
+    glDeleteBuffers(1, &VBO1);
+	glDeleteBuffers(1, &VBO2);
+			
+	glDeleteBuffers(1, &EBO1);
+	glDeleteBuffers(1, &EBO2);
+
+	glDeleteVertexArrays(1, &VAO1);
+	glDeleteVertexArrays(1, &VAO2);
 }
 
 void Game::set_framebuffers()

@@ -138,6 +138,7 @@ class Game
 		Game(const std::string& title);
 		~Game();
 		void start(); // shows main menu
+        static void loading_screen();
 		void quit();
 
 	private:
