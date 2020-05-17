@@ -174,7 +174,6 @@ class Game
 		void draw_topBar_HUD(GLuint topBarVAO, HUD_lap& hud_lap, HUD_pos& hud_pos, HUD_chrono& chrono);
 		void draw_map_HUD(bool quit_game = false);
         void draw_lap_time(HUD_chrono& lap_time);
-        void play_end_game_anim();
 		
 		void check_events(); // check for user input each render loop
 		void update_menu_bb(int win_max_width, int win_max_height);
@@ -340,6 +339,9 @@ class Game
 		Source* fodesinbeed;
 		Source* tatooine_wind;
 		Source* countdown_sounds;
+		Source* pod_collide;
+		Source* pod_crash;
+		Source* pod_collide;
 
 		// shadows framebuffer
 		GLuint shadowMapFBO;
@@ -524,6 +526,8 @@ class Podracer
         float max_roll_angle;
         glm::vec3 rotor_left_translate;
         glm::vec3 rotor_right_translate;
+        bool collide_terrain;
+        bool collide_ground;
 	
 		// camera + game ptr
 		Camera* cam;

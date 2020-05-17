@@ -542,6 +542,8 @@ Game::Game(const std::string& title) :
 	sounds->load_sound("../assets/audio/afterburn.wav"); // 9
 	sounds->load_sound("../assets/audio/countdown.wav"); // 10
 	sounds->load_sound("../assets/audio/go.wav"); // 11
+	sounds->load_sound("../assets/audio/collide.wav"); // 12
+	sounds->load_sound("../assets/audio/crash.wav"); // 13
 	
 	main_menu_source = new Source();
 	main_menu_source->set_volume(sound_volume);
@@ -583,6 +585,12 @@ Game::Game(const std::string& title) :
 	
 	countdown_sounds = new Source();
 	countdown_sounds->set_volume(100);
+
+    pod_collide = new Source();
+    pod_collide->set_volume(60);
+    
+    pod_crash = new Source();
+    pod_crash->set_volume(80);
 
 	// render pass visualization
 	check_render_pass = false;
@@ -1482,6 +1490,8 @@ Game::~Game()
 	delete(fodesinbeed);
 	delete(tatooine_wind);
 	delete(countdown_sounds);
+    delete(pod_collide);
+    delete(pod_crash);
     
     glDeleteRenderbuffers(1, &envRBO);
     glDeleteTextures(1, &envTexture);
@@ -6277,18 +6287,6 @@ void Game::draw_lap_time(HUD_chrono& lap_time)
 	ui_shader->set_int("lap_timer_anim", 0);
 }
 
-void Game::play_end_game_anim()
-{
-   static bool first_call = true;
-
-   if(first_call)
-   {
-        // set cam pos
-        // set pod speed
-        pod->speed = 15.0f;
-   }
-}
-
 void Game::reset()
 {
 	racing_cam->reset();
@@ -6360,6 +6358,7 @@ void Game::sound_system()
 	static int bip = 0;
     static bool go_sound = false;
     static bool new_lap_record = false;
+    static bool pod_crash_done = false;
 
 	if(current_page != RACE)
 	{
@@ -6374,6 +6373,7 @@ void Game::sound_system()
 		bip = 0;
         go_sound = false;
         new_lap_record = false;
+        pod_crash_done = false;
 
 		if(tatooine_wind->is_playing())
 			tatooine_wind->stop_sound();
@@ -6489,6 +6489,25 @@ void Game::sound_system()
         {
             new_lap_record = true;
             fodesinbeed->play_sound(sounds->sounds.at(8));
+        }
+
+        if(pod->collide_terrain && !pod_collide->is_playing())
+        {
+            if(pod->speed > 0.1f)
+            {
+                pod_collide->play_sound(sounds->sounds.at(12));
+            }
+            pod->collide_terrain = false;
+        }
+        
+        if(pod->collide_ground && !pod_crash->is_playing() && !pod_crash_done)
+        {
+            if(pod->speed > 0.1f)
+            {
+                pod_crash->play_sound(sounds->sounds.at(13));
+                pod->collide_ground = false;
+                pod_crash_done = true;
+            }
         }
 	}
 }
@@ -7133,6 +7152,8 @@ Podracer::Podracer(std::string p_name, Game* p_g)
 	overheat = 750.0f;
 	max_speed = 850.0f;
     max_roll_angle = 0.348f; // (PI/9) or 20 degrees
+    collide_terrain = false;
+    collide_ground = false;
 
 	// camera + game ptr
 	g = p_g;
@@ -7280,6 +7301,8 @@ void Podracer::reset()
 	heat = 42.0f;
 	overheat = 750.0f;
 	max_speed = 850.0f;
+    collide_terrain = false;
+    collide_ground = false;
 }
 
 Podracer::~Podracer()
@@ -8220,24 +8243,49 @@ struct ContactCallback : public btCollisionWorld::ContactResultCallback
     ContactCallback()
     {
         lap_increase = false;
+        collide_terrain = false;
+        collide_ground = false;
     }
 
     ~ContactCallback(){}
 
     btScalar addSingleResult(btManifoldPoint & cp, const btCollisionObjectWrapper * colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper * colObj1Wrap, int partId1, int index1)
     {
-        lap_increase = true;
+        const btCollisionObject* obj2 = colObj1Wrap->getCollisionObject();
+
+        if(obj2 == lap_count_obj)
+            lap_increase = true;
+        if(obj2 != reactors_obj && obj2 != chariot_obj && obj2 != cable_left_obj && obj2 != cable_right_obj && obj2 != lap_count_obj)
+        {
+            for(int i = 0; i < ground_objs.size(); i++)
+            {
+                if(ground_objs.at(i) == obj2)
+                {
+                    collide_ground = true;
+                    return btScalar(1.0f);
+                }
+            }
+            collide_terrain = true;
+        }
         return btScalar(1.0f);
     }
 
     // members
     bool lap_increase;
+    bool collide_terrain;
+    bool collide_ground;
     btCollisionObject * lap_count_obj;
+    btCollisionObject * reactors_obj;
+    btCollisionObject * chariot_obj;
+    btCollisionObject * cable_left_obj;
+    btCollisionObject * cable_right_obj;
+    std::vector<btCollisionObject*> ground_objs;
 };
 
 RayCallback ray_reactors;
 RayCallback ray_chariot;
 ContactCallback contact;
+ContactCallback contact_lap;
 
 WorldPhysics::WorldPhysics(Game* p_g) :
     engineForce(0.0f),
@@ -8357,6 +8405,8 @@ WorldPhysics::WorldPhysics(Game* p_g) :
         btCollisionObject * obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
         ray_reactors.ground_objs.push_back(obj);
         ray_chariot.ground_objs.push_back(obj);
+        contact.ground_objs.push_back(obj);
+        contact_lap.ground_objs.push_back(obj);
     }
 
     std::vector<Mesh*> env_mesh_lap = g->env->get_mesh_collection(true, 2);
@@ -8394,6 +8444,7 @@ WorldPhysics::WorldPhysics(Game* p_g) :
         // lap count
         btCollisionObject * obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
         contact.lap_count_obj = obj;
+        contact_lap.lap_count_obj = obj;
     }
 
     // ----- create podracer dynamic rigid body -----
@@ -8422,6 +8473,8 @@ WorldPhysics::WorldPhysics(Game* p_g) :
 
     }
     reactors_colObj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+    contact.reactors_obj = reactors_colObj;
+    contact_lap.reactors_obj = reactors_colObj;
     
     // chariot
     {
@@ -8446,6 +8499,9 @@ WorldPhysics::WorldPhysics(Game* p_g) :
         dynamicsWorld->addRigidBody(chariot_body, COLLISION_GROUP::POD, COLLISION_GROUP::POD | COLLISION_GROUP::ENV);
         chariot_body->setActivationState(DISABLE_DEACTIVATION);
     }
+    
+    contact.chariot_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+    contact_lap.chariot_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
 
     // ----------********** START CREATE RAYCAST VEHICLE **********----------
     raycaster = new btDefaultVehicleRaycaster(dynamicsWorld);
@@ -8612,6 +8668,9 @@ WorldPhysics::WorldPhysics(Game* p_g) :
         // add left soft body to the dynamics world
         dynamicsWorld->addSoftBody(cable_left);
 
+        contact.cable_left_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+        contact_lap.cable_left_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+
         // attach left soft body to chariot and reactors
         btSoftBody::tNodeArray left_nodes = cable_left->m_nodes;
 
@@ -8728,9 +8787,10 @@ WorldPhysics::WorldPhysics(Game* p_g) :
 
         // add right soft body to the dynamics world
         dynamicsWorld->addSoftBody(cable_right);
-        initial_c_right_vertices = fixed_right_vertices;
-        prev_c_right_vertices = fixed_right_vertices;
-
+        
+        contact.cable_right_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+        contact_lap.cable_right_obj = dynamicsWorld->getCollisionObjectArray()[collisionShapes.size() - 1];
+        
         // attach right soft body to chariot and reactors
         btSoftBody::tNodeArray right_nodes = cable_right->m_nodes;
     
@@ -9427,10 +9487,11 @@ void WorldPhysics::update_dynamics()
     }
 
     // -----=====----- check if another lap is completed -----=====-----
-    dynamicsWorld->contactPairTest(reactors_colObj, contact.lap_count_obj, contact);
-    if(contact.lap_increase)
+    dynamicsWorld->contactPairTest(reactors_colObj, contact_lap.lap_count_obj, contact_lap);
+    dynamicsWorld->contactTest(reactors_colObj, contact);
+    if(contact_lap.lap_increase)
     {
-        contact.lap_increase = false;
+        contact_lap.lap_increase = false;
         if(!g->hit_count_lap_wall)
         {
             g->hit_count_lap_wall = true;
@@ -9440,6 +9501,20 @@ void WorldPhysics::update_dynamics()
     else
     {
         g->hit_count_lap_wall = false;
+    }
+    
+    // -----=====----- check if pod collide terrain -----=====-----
+    if(contact.collide_terrain)
+    {
+        contact.collide_terrain = false;
+        g->pod->collide_terrain = true;
+    }
+    
+    // -----=====----- check if pod collide ground -----=====-----
+    if(contact.collide_ground)
+    {
+        contact.collide_ground = false;
+        g->pod->collide_ground = true;
     }
 
     // reset pod angular factor
