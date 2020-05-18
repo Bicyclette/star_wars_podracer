@@ -5584,6 +5584,7 @@ void Game::render_env_motion_blur_texture(GLuint VAO, Shader& motionBlur_shader)
 	motionBlur_shader.set_int("colorTexture", 1);
 
 	motionBlur_shader.set_float("fps", fps);
+
 	motionBlur_shader.set_float("width", static_cast<float>(width));
 	motionBlur_shader.set_float("height", static_cast<float>(height));
 	//motionBlur_shader.set_Matrix("inv_MVP", glm::inverse(cam->get_projection() * cam->get_view() * cam->get_model()));
@@ -5627,6 +5628,7 @@ void Game::render_smoke_motion_blur_texture(GLuint VAO, Shader& motionBlur_shade
 	motionBlur_shader.set_int("colorTexture", 1);
 
 	motionBlur_shader.set_float("fps", fps);
+
 	motionBlur_shader.set_float("width", static_cast<float>(width));
 	motionBlur_shader.set_float("height", static_cast<float>(height));
 	
@@ -6945,7 +6947,7 @@ glm::vec3 Camera::get_vector_right() const { return glm::normalize(glm::cross(gl
 glm::vec3 Camera::get_center_ray() const
 {
 	glm::vec3 start = position - (0.1f * glm::normalize(direction));
-	glm::vec3 end = position - (1000.1f * glm::normalize(direction));
+	glm::vec3 end = position - (4500.1f * glm::normalize(direction));
 	glm::vec3 center_ray = glm::normalize(end - start);
 	//std::cout << "center_ray = (" << center_ray.x << ", " << center_ray.y << ", " << center_ray.z << ")" << std::endl;
 	return center_ray;
@@ -7546,7 +7548,7 @@ void Podracer::draw(bool shadowPass, bool depthPass, bool smokePass)
             glm::mat4 rotor_right_model = glm::mat4(1.0f);
             rotor_right_model = glm::translate(rotor_right_model, glm::vec3(0.0f, 1.5f, 1.5f));
 		    
-		    pod_shader->set_Matrix("model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -2.23f, 3.3f)) * chariot_model);
+		    pod_shader->set_Matrix("model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -2.22f, 3.3f)) * chariot_model);
             cable_left->draw(*pod_shader);
             cable_right->draw(*pod_shader);
 		    pod_shader->set_Matrix("model", chariot_model * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.02f, 0.3f)));
@@ -8889,9 +8891,13 @@ void WorldPhysics::reset()
     air_scoops_right_hinge2_model = glm::mat4(1.0f);
     air_scoops_right_hinge3_model = glm::mat4(1.0f);
 
+    // reset cables
+    g->pod->cable_left->get_mesh_collection().at(0)->recreate(initial_c_left_vertices, initial_c_left_indices);
+    g->pod->cable_right->get_mesh_collection().at(0)->recreate(initial_c_right_vertices, initial_c_right_indices);
+
     // clear forces and velocities
     btVector3 zeroVector(0, 0, 0);
-    
+
     reactors_body->clearForces();
     reactors_body->setLinearVelocity(zeroVector);
     reactors_body->setAngularVelocity(zeroVector);
@@ -8901,10 +8907,6 @@ void WorldPhysics::reset()
     chariot_body->setLinearVelocity(zeroVector);
     chariot_body->setAngularVelocity(zeroVector);
     chariot_body->setWorldTransform(chariot_initialTransform);
-
-    // reset cables
-    g->pod->cable_left->get_mesh_collection().at(0)->recreate(initial_c_left_vertices, initial_c_left_indices);
-    g->pod->cable_right->get_mesh_collection().at(0)->recreate(initial_c_right_vertices, initial_c_right_indices);
 }
 
 void WorldPhysics::update_dynamics()

@@ -339,7 +339,6 @@ class Game
 		Source* fodesinbeed;
 		Source* tatooine_wind;
 		Source* countdown_sounds;
-		Source* pod_collide;
 		Source* pod_crash;
 		Source* pod_collide;
 

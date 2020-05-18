@@ -30,7 +30,7 @@ layout (location = 1) out vec4 bright_color;
 float linearizeDepth(float depth)
 {
 	float z = (depth * 2.0) - 1.0;
-	return (2.0 * 1000.0) / (1000.1 - z * 999.9);
+	return (2.0 * 4500.0) / (4500.1 - z * 4499.9);
 }
 
 void main()
@@ -38,7 +38,7 @@ void main()
     if(smoke == 1)
     {
     	float depth = linearizeDepth(texture(depthTexture, fs_in.tCoords).r);
-    	depth = depth / 1000.0;
+    	depth = depth / 4500.0;
 
     	// compute view ray
     	float xOffset = (fs_in.tCoords.x * 2.0 - 1.0);
