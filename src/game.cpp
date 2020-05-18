@@ -6507,6 +6507,10 @@ void Game::sound_system()
             }
             pod->collide_terrain = false;
         }
+        else if(pod_collide->is_playing())
+        {
+            pod->collide_terrain = false;
+        }
         
         if(pod->collide_ground && !pod_crash->is_playing() && !pod_crash_done)
         {
@@ -6692,6 +6696,23 @@ void Game::check_events()
 			if(sound_volume > 100){sound_volume = 100;}
 			if(sound_volume < 0){sound_volume = 0;}
 			main_menu_source->set_volume(sound_volume);
+            float sound_ratio = static_cast<float>(sound_volume);
+            sound_ratio /= 100.0f;
+            /*
+	        pod_fire_power_coupling->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+	        pod_power_coupling->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+	        pod_start_electric_engine->set_volume(static_cast<int>(static_cast<float>(30) * sound_ratio));
+	        pod_electric_engine->set_volume(static_cast<int>(static_cast<float>(30) * sound_ratio));
+	        pod_fire_engine->set_volume(static_cast<int>(static_cast<float>(60) * sound_ratio));
+	        pod_base_engine->set_volume(static_cast<int>(static_cast<float>(30) * sound_ratio));
+	        pod_break->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+	        pod_afterburn->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+	        fodesinbeed->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+	        tatooine_wind->set_volume(static_cast<int>(static_cast<float>(30) * sound_ratio));
+	        countdown_sounds->set_volume(static_cast<int>(static_cast<float>(100) * sound_ratio));
+            pod_collide->set_volume(static_cast<int>(static_cast<float>(60) * sound_ratio));
+            pod_crash->set_volume(static_cast<int>(static_cast<float>(80) * sound_ratio));
+            */
 		}
 	}
 	else
