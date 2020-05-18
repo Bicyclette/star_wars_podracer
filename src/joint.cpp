@@ -1,3 +1,9 @@
+/**
+ * \file
+ * 206 joints for you, 206 joints for me
+ * \author Mathias Velo
+ */
+
 #include "joint.hpp"
 
 Joint::Joint(int p_id, std::string p_name, Joint* j_parent) :

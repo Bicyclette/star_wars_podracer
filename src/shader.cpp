@@ -1,3 +1,9 @@
+/**
+ * \file
+ * 50 shades of sand, but I don't like sand !
+ * \author Mathias Velo
+ */
+
 #include "shader.hpp"
 #include "stb_image.hpp"
 

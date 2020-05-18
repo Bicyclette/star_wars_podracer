@@ -1,3 +1,9 @@
+/**
+ * \file
+ * It all starts here
+ * \author Mathias Velo
+ */
+
 #include "game.hpp"
 #include "color.hpp"
 #include "shader.hpp"

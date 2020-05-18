@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Point by point
+ * \author Mathias Velo
+ */
+
 #include "mesh.hpp"
 #include <glm/gtx/string_cast.hpp>
 

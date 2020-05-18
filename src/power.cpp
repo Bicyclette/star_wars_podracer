@@ -1,3 +1,9 @@
+/**
+ * \file
+ * It looks like Ben Quadinaros has an engine trouble also !
+ * \author Mathias Velo
+ */
+
 #include "power.hpp"
 
 Power::Power(std::vector<glm::vec3> co_left, std::vector<glm::vec3> co_right) :

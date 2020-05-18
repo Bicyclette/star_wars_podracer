@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Drop it !
+ * \author Mathias Velo
+ */
+
 #include "audio.hpp"
 
 Audio::Audio()

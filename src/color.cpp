@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Somewhere over the rainbow...
+ * \author Mathias Velo
+ */
+
 #include "color.hpp"
 
 const float Color::LIGHT_GREY[4] = {0.749f, 0.737f, 0.706f, 1.0f};

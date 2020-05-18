@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Shape by shape
+ * \author Mathias Velo
+ */
+
 #include "object.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION

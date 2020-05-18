@@ -1,3 +1,9 @@
+/**
+ * \file
+ * It all happens here
+ * \author Mathias Velo
+ */
+
 #include "game.hpp"
 #include <glm/gtx/string_cast.hpp>
 #define CHECK_RENDER_PASS 0

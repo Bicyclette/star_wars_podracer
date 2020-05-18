@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Somewhere over the rainbow, skies are blue
+ * \author Mathias Velo
+ */
+
 #include "skybox.hpp"
 
 // cube (front, right, back, left, top, bottom) => seen from (0,0,0) inside the cube

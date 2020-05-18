@@ -1,3 +1,9 @@
+/**
+ * \file
+ * Move like nobody is watching
+ * \author Mathias Velo
+ */
+
 #include "animation.hpp"
 
 Keyframe::Keyframe(int p_frame)
