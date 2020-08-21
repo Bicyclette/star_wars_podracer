@@ -7,7 +7,8 @@ Must be performed as root:
 + dnf install glew-devel.x86_64
 + dnf install assimp-devel.x86_64
 + dnf install openal-soft-devel.x86_64
-+ dnf install bullet-devel.x86-64
++ dnf install bullet-devel.x86_64
++ dnf install libsndfile-devel.x86_64
 
 # how to build (GNU/linux systems)
 1) in the root directory, create a build directory: mkdir build
