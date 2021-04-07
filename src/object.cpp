@@ -280,7 +280,7 @@ Mesh* Object::get_mesh(aiMesh* mesh, const aiScene* scene, bool drawable, bool p
 		}
 
 		Vertex v(v_pos, v_norm, v_tex_coords, v_bonesID, v_bonesWeight);
-		if(mesh_name == "smoke")
+		if(mesh_name == "smoke_left" || mesh_name == "smoke_right")
 		{
             if(v_pos.x > 0.0f)
             {
@@ -293,12 +293,16 @@ Mesh* Object::get_mesh(aiMesh* mesh, const aiScene* scene, bool drawable, bool p
 			    smoke_right_dir = glm::normalize(v_norm);
             }
 		}
-		else if(mesh_name == "connector")
+		else if(mesh_name == "connector_left" || mesh_name == "connector_right")
 		{
-            if(v_pos.x > 0.0f)
-			    connectors_left.push_back(v_pos);
-            else
-			    connectors_right.push_back(v_pos);
+            		if(v_pos.x > 0.0f)
+			{
+				connectors_left.push_back(v_pos);
+			}
+            		else
+			{
+				connectors_right.push_back(v_pos);
+			}
 		}
 
 		v_bonesID.x = -1.0f; v_bonesID.y = -1.0f;
